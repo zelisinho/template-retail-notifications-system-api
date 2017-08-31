@@ -6,25 +6,25 @@
 	<parent>
 		<groupId>org.mule.templates</groupId>
 		<artifactId>templates-tooling-parent-pom</artifactId>
-		<version>1.3.7</version>
+		<version>1.3.9</version>
 	</parent>
 
-	<artifactId>template-banking-notifications2twilio-system-api</artifactId>
+	<artifactId>template-retail-notifications-system-api</artifactId>
 	<version>1.3.0-SNAPSHOT</version>
 	<packaging>mule</packaging>
-	<name>template-banking-notifications2twilio-system-api</name>
+	<name>template-retail-notifications-system-api</name>
 
 	<properties>
 		<mule.tools.version>1.2</mule.tools.version>
 		<twilio.version>1.4</twilio.version>
 		<skip.readme.generation>true</skip.readme.generation>
-	<mule.version>3.8.4</mule.version>
+	<mule.version>3.8.5</mule.version>
     </properties>
 
 	<scm>
-		<connection>scm:git:https://github.com/mulesoft/template-banking-notifications2twilio-system-api.git</connection>
-		<developerConnection>scm:git:https://github.com/mulesoft/template-banking-notifications2twilio-system-api.git</developerConnection>
-		<url>https://github.com/mulesoft/template-banking-notifications2twilio-system-api</url>
+		<connection>scm:git:https://github.com/mulesoft/template-retail-notifications-system-api.git</connection>
+		<developerConnection>scm:git:https://github.com/mulesoft/template-retail-notifications-system-api.git</developerConnection>
+		<url>https://github.com/mulesoft/template-retail-notifications-system-api</url>
 		<tag>HEAD</tag>
 	</scm>
 
