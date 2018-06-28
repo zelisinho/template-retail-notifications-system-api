@@ -1,0 +1,36 @@
+#%RAML 1.0
+baseUri: https://mocksvc.mulesoft.com/mocks/3807ea68-b9fb-4960-b213-8a2c6a93bbe4 # 
+#baseUri: https://mocksvc.mulesoft.com/mocks/f93e3932-b327-4326-9e77-ba182a2c5084 # 
+title: Retail Notifications System API
+version: v2.0
+
+types:
+  Notification: 
+    type: object
+    properties:
+      id?: string | integer
+      type:
+        type: string
+        enum: [SMS, EMAIL]
+      message?: string | integer
+      subject?: string | integer
+      priority:
+        type: string
+        enum: [ URGENT, CRITICAL, MAJOR, MINOR, TRIVIAL]
+        required: false
+      recipient: string | integer
+
+/notifications:
+  displayName: Notifications
+  description: |
+    Working with notifications:
+    * Creating notifications
+  post:
+    description: |
+      Create a new Notification
+    body:
+      application/json:
+        type: Notification
+        example: !include examples/notifications-request.raml
+    responses:
+      200:
