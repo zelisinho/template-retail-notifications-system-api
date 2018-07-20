@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<http:listener-config
+		name="retail_notifications_system_api-httpListenerConfig" doc:name="HTTP Listener config">
+		<http:listener-connection host="0.0.0.0"
+			port="${http.port}" />
+	</http:listener-config>
+	<tls:context name="TLS_Context" doc:name="TLS Context"
+		doc:id="322debdf-e869-4294-8d83-e47f7376cbe8">
+		<tls:trust-store insecure="true" />
+	</tls:context>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP"
+		doc:id="7b0a7d4a-d12d-436a-b8ea-f4c9b77f381c">
+		<email:smtps-connection host="${smtp.host}"
+			port="${smtp.port}" user="${smtp.user}" password="${smtp.password}"
+			tlsContext="TLS_Context" />
+	</email:smtp-config>
+	<apikit:config name="retail_notifications_system_api-config"
+		raml="retail_notifications_system_api.raml" outboundHeadersMapName="outboundHeaders"
+		httpStatusVarName="httpStatus" />
+		
+	<configuration-properties doc:name="Configuration properties" doc:id="a311dc1a-9e9c-4141-a099-f3c24cc8aaf4" file="common.properties" />
+	<configuration-properties doc:name="Configuration properties" doc:id="7b69e4c7-1ad8-4c3e-9d02-dccb4ac47c09" file="mule.${mule.env}.properties" />
+	<configuration-properties doc:name="Configuration properties" doc:id="1e022821-6e68-4e86-aabc-0163ea069e9d" file="mule-artifact.properties" />
+
+</mule>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd 
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="createNotifications">
+		<ee:transform doc:name="Store input JSON as Map into inputData variable"
+			doc:id="3b4b54e9-9dd7-4488-a440-5b5161d48047">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="inputData"><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Route request according to the payload type"
+			doc:id="6eb2e66c-3713-4f88-86c7-936ffbfbff25">
+			<when expression="#[vars.inputData.'type' == 'EMAIL']">
+				<validation:is-email doc:name="Is email"
+					doc:id="209b15ff-d173-48c1-9cdb-463505ca11e1" email="#[vars.inputData.recipient]"
+					message="Recipient doesn't contain valid email adress." />
+				<flow-ref doc:name="ref handleEMAIL" doc:id="6320ea44-3f73-4d96-8934-19ce62b1bb34"
+					name="handleEMAIL" />
+			</when>
+			<when expression="#[vars.inputData.'type' == 'SMS']">
+				<validation:matches-regex doc:name="Matches regex"
+					doc:id="1ecf3aeb-c9a0-4b63-8c98-d1d6fcab31bb" value="#[vars.inputData.recipient]"
+					regex="^\+?\d{1,}$" message="Recipient doesn't contain valid phone number." />
+				<flow-ref doc:name="ref handleSMS" doc:id="bdaf4517-a82d-4500-8b5d-e28522b0ca0f"
+					name="handleSMS" />
+			</when>
+			<otherwise>
+				<logger level="INFO" doc:name="Log 'Type was not defined'"
+					doc:id="9ee24c5a-76bd-4829-beb9-7d377a8b7fcf" message="Log 'Type was not defined'" />
+			</otherwise>
+		</choice>
+	</flow>
+	<sub-flow name="handleSMS" doc:id="c2df21e7-5b2d-4b73-97a6-dbfb1f9ecb0a">
+		<logger level="INFO" doc:name="Logger"
+			doc:id="90c39a53-20d2-43a7-9a63-fecdde565147" message="Not supported." />
+	</sub-flow>
+	<sub-flow name="handleEMAIL" doc:id="de0a0ae6-6266-46f7-9d61-cdf7734ff457">
+		<ee:transform doc:name="Prepare EMAIL body"
+			doc:id="069c363c-260c-409a-a393-a63ed1a1b47a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+vars.inputData.message default ""]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<email:send doc:name="Send EMAIL by SMTP" doc:id="6feaf824-6599-487b-a3e2-ebd3d73dedf1"
+			toAddresses="#[[vars.inputData.recipient]]" config-ref="Email_SMTP" fromAddress="${smtp.user}"
+			subject="#[vars.inputData.subject]" >
+			<email:body contentType="text/plain" encoding="UTF-8" />
+		</email:send>
+	</sub-flow>
+</mule>
