@@ -32,6 +32,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		
 	<configuration-properties doc:name="Configuration properties" doc:id="a311dc1a-9e9c-4141-a099-f3c24cc8aaf4" file="common.properties" />
 	<configuration-properties doc:name="Configuration properties" doc:id="7b69e4c7-1ad8-4c3e-9d02-dccb4ac47c09" file="mule.${mule.env}.properties" />
-	<configuration-properties doc:name="Configuration properties" doc:id="1e022821-6e68-4e86-aabc-0163ea069e9d" file="mule-artifact.properties" />
+	<global-property doc:name="Global Property" doc:id="f2cdaad1-8ab8-4e13-9b35-e2d194d14a97" name="mule.env" value="dev" />
 
 </mule>
