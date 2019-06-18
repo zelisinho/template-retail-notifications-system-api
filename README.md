@@ -19,7 +19,7 @@ Please review the terms of the license before downloading and using this templat
 
 # Use Case <a name="usecase"/>
 
-This API allows to send notifications via e-mail as text messages.
+This API allows to send notifications via e-mail and sms as text messages.
 
 # Considerations <a name="considerations"/>
 
@@ -78,6 +78,12 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 Detailed list with examples:
 ### Application properties
 + http.port `8081`
+
+### Twilio Services configuration
++ twilio.account.username `twilio_username`
++ twilio.account.password `twilio_password`
++ twilio.account.sid `twilio_sid`
++ twilio.phone.number `+12345678`
 
 ### SMTP Services configuration
 + smtp.host `smtp.gmail.com`

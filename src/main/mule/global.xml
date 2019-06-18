@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:email="http://www.mulesoft.org/schema/mule/email"
+<mule
+    xmlns:twilio-connector="http://www.mulesoft.org/schema/mule/twilio-connector" 
+    xmlns:email="http://www.mulesoft.org/schema/mule/email"
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
@@ -9,7 +11,12 @@
 http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd 
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/twilio-connector http://www.mulesoft.org/schema/mule/twilio-connector/current/mule-twilio-connector.xsd">
+    
+    <configuration-properties doc:name="Configuration properties" doc:id="69bec86d-85c6-4d7c-98cc-309654452414" file="common.properties" />
+    <configuration-properties doc:name="Configuration properties" doc:id="3bd92583-01e3-4b18-82ef-27fc558ca395" file="mule.${mule.env}.properties" />
+    <global-property doc:name="Global Property" doc:id="dfcd2828-f277-4933-8a66-9124403ed50a" name="mule.env" value="dev" />
 
 	<http:listener-config
 		name="retail_notifications_system_api-httpListenerConfig" doc:name="HTTP Listener config">
@@ -29,9 +36,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<apikit:config name="retail_notifications_system_api-config"
 		raml="retail_notifications_system_api.raml" outboundHeadersMapName="outboundHeaders"
 		httpStatusVarName="httpStatus" />
-		
-	<configuration-properties doc:name="Configuration properties" doc:id="a311dc1a-9e9c-4141-a099-f3c24cc8aaf4" file="common.properties" />
-	<configuration-properties doc:name="Configuration properties" doc:id="7b69e4c7-1ad8-4c3e-9d02-dccb4ac47c09" file="mule.${mule.env}.properties" />
-	<global-property doc:name="Global Property" doc:id="f2cdaad1-8ab8-4e13-9b35-e2d194d14a97" name="mule.env" value="dev" />
-
+	  <twilio-connector:config name="Twilio_Connector_Config" doc:name="Twilio Connector Config" doc:id="96787aab-dd2b-4d5f-b984-10cca47bf34f" property_username="${twilio.account.username}" property_password="${twilio.account.password}" />
+    	
 </mule>
